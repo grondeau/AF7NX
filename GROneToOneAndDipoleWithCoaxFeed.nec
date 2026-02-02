@@ -1,0 +1,25 @@
+CM Two Dipoles
+CE
+SY h=10	'Height
+SY LOA=10.4	'overall length of the antenna
+SY Lc= 50.e-6	'coil common mode inductance
+SY d = 0.2	'characteristic length of balun comonents
+SY Xb = 0	'Locaiont of balun X
+SY Yb = 0	'Location of balun Y
+SY Hb = H	'Height of balun
+GW	1	50	Xb-d	Yb	H	-LOA/2	Yb	H	#14	'left dipole wire
+GW	2	50	Xb+d	Yb	H	LOA/2	Yb	H	#14	'right dipole wire
+GW	10	1	Xb-d	Yb	Hb	Xb+d	Yb	Hb	#14	'Output side
+GW	11	1	Xb-d	Yb	Hb-2*d	Xb+d	Yb	Hb-2*d	#14	'Input side
+GW	12	1	Xb-d	Yb	Hb	Xb-d	Yb	Hb-2*d	#14	'Leackage Inductance path
+GW	20	1	Xb-d	5	1	Xb+d	5	1	#14	'Feed point
+GW	21	50	Xb-d	Yb	Hb-2*d	Xb-d	5	0	#14	'coax feed line
+GE	1
+LD	1	12	1	0	0	Lc
+GN	2	0	0	0	13	0.005
+EK
+EX	0	20	1	0	1	0	1
+TL	10	1	11	1	50	1	0	0	0	0
+TL	20	1	11	1	50	20	0	0	0	0	'Feed line
+FR	0	0	0	0	14.1	0
+EN

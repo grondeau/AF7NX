@@ -1,0 +1,51 @@
+CM Isolated two-port transmission line splitter
+CM 
+CM 
+CE
+SY F=2.	'Mhz
+SY TL=54	'Length of Transmission line = lambda/2 base
+SY H = 46	'Top height meters
+SY LOA=42	'Antenna Length
+SY Ffeed = 0.5	'feed point fraction
+SY Hf = H-(1-Ffeed)*LOA	'Height of feed
+SY Hchk = H-LOA	'Height of cable choke
+SY Lchk = 120.e-6	'Inductnce of choke
+SY Dsep = 20	'Separation between antennas
+SY fd=1	'fraction of distance for electrical length change
+SY DL  = Dsep*fd	'Dely length of one line
+SY X1 = Dsep/2	'X offset of first antenna
+SY Y1 = 0	'Y offset of first antenna
+SY X2 = -Dsep/2	'X offset of second antenna
+SY Y2 = 0	'Y offset of second antenna
+SY d = 0.2	'Small distance for balun construction
+SY Xb = 0	'X offset of balun
+SY Yb = 0	'Y offset of balun
+SY Hb = 1.2	'Height of balun
+SY INV = -1	'Inverted = -1,  In-Phase = 1
+GW	1	100	X1	Y1	H	X1	Y1	Hf	#14	'Wire Vert. to feed
+GW	2	100	X1	Y1	Hf	X1	Y1	H-LOA	3.5e-3	'coax feed
+GW	3	75	X1	Y1	H-LOA	X1	Y1	0	3.5e-3	'coax all the way to ground
+GW	31	100	X2	Y2	H	X2	Y2	Hf	#14	'Wire Vert. to feed
+GW	32	100	X2	Y2	Hf	X2	Y2	H-LOA	3.5e-3	'coax feed
+GW	33	75	X2	Y2	H-LOA	X2	Y2	0	3.5e-3	'coax all the way to groundGW	31	100	-Xo/2	-Yo/2	H-LWvert	-Xo/2	-Yo/2	H	#14	'Wire Vert. to feed
+GW	20	1	Xb	Yb-d	Hb	Xb	Yb+d	Hb	#14	'source feed 1
+GW	11	1	Xb-d	Yb-d	Hb+2*d	Xb-d	Yb+d	Hb+2*d	#14	'Line one termination
+GW	12	1	Xb+d	Yb+d	Hb+2*d	Xb+d	Yb-d	Hb+2*d	#14	'Line two termination
+GW	13	1	Xb-d	Yb-d	Hb+2*d	Xb+d	Yb-d	Hb+2*d	#14	'Center &line3
+GW	14	1	Xb+d*INV	Yb+d	Hb+2*d	Xb-d*INV	Yb+d	Hb+2*d	#14	'outer &line4
+GW	15	1	Xb-d	Yb-d	Hb+4*d	Xb+d	Yb-d	Hb+4*d	#14	'end line3
+GW	16	1	Xb+d	Yb+d	Hb+4*d	Xb-d	Yb+d	Hb+4*d	#14	'end line 4
+GE	1
+LD	1	3	1	0	0	Lchk
+LD	1	33	1	0	0	Lchk
+GN	2	0	0	0	13	0.005
+EK
+EX	0	20	1	0	1	0	1
+TL	20	1	11	1	75	0.5	0	0	0	0
+TL	20	1	12	1	75	0.5	0	0	0	0
+TL	13	1	15	1	75	0.5	0	0	0	0
+TL	14	1	16	1	75	0.5	0	0	0	0
+TL	16	1	2	1	75	TL	0	0	0	0	'Lines from Balun
+TL	15	1	32	1	75	TL+DL	0	0	0	0	'Lines from Balun
+FR	0	0	0	0	F	0
+EN

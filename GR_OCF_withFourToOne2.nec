@@ -1,0 +1,30 @@
+CM Two Dipoles
+CE
+SY h=20	'Height
+SY LW=42.2506	'length of wire
+SY F=0.864172	'feed point fraction
+SY LWL=LW*(1-F)	'Left wire
+SY LWR=LW*F	'Right wire
+SY Cs=100.e-12	'coil stray C
+SY Lc= 5.e-6	'coil common mode inductance
+SY d = 0.3	'characteristic length of balun comonents
+SY Xb = 0	'Balun X position
+SY Yb = 0	'Balun Y position
+SY Hb = h	'Balun height
+SY TL=20.27966	'Line length
+GW	1	100	-LWL	Yb	H	Xb-d	Yb	Hb	#14	'Left Wire
+GW	2	100	Xb+d	Yb	Hb	LWR	Yb	H	#14	'Right Wire
+GW	10	1	Xb-d	Yb	Hb-2*d	Xb+d	Yb	Hb-2*d	#14	'source feed 1
+GW	11	1	Xb-d	Yb	Hb	Xb	Yb	Hb	#14	'Line one termination
+GW	12	1	Xb	Yb	Hb	Xb+d	Yb	Hb	#14	'Line two termination
+GW	20	1	Xb-d	5	1	Xb+d	5	1	#14	'source
+GW	21	100	Xb-d	Yb	Hb-2*d	Xb-d	5	0	#14	'Coax shield
+GE	1
+GN	2	0	0	0	13	0.005
+EK
+EX	0	20	1	0	1	0	1
+TL	10	1	20	1	50	TL	0	0	0	0
+TL	10	1	11	1	100	1	0	0	0	0
+TL	10	1	12	1	100	1	0	0	0	0
+FR	0	0	0	0	7.05	0
+EN

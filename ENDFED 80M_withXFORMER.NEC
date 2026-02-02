@@ -1,0 +1,50 @@
+CM 80m End FEd with tiline step-up NEC model
+CE
+SY H = 25	'Top height meters
+SY LOA=42.	'feed point to top wire length
+SY Hf = H	'Height of feed point
+SY Ccp = 1.e-12	'series cap for counterpoise
+SY Ltline=54	'Length of coax to feed point
+SY VF = 0.83	'VF for hat coax
+SY d=0.1	'characteristic length for balun construction
+SY Zb=150	'Winding T-line impedance
+SY Lb=0.2	'length of each winding (m)
+SY Xb=0	'Balun X position
+SY Yb=0	'Balun Y position
+SY Hb = Hf	'Balun height
+SY Lload = 4.5e-6	'Series load coil
+SY Lgnd = 5.e-6	'Inductance across primary
+SY F = 95	'Percent along wire for the load coil
+SY Fchk = 15	'location on feed line (50 segments long)
+GW	1	100	Xb	0	Hf	Xb+LOA	0	Hf	#14	'Main Vertical Wire
+GW	10	1	Xb	0	Hf	Xb	d	Hf	#14	'xformer 1
+GW	11	1	Xb	d	Hf	Xb	2*d	Hf	#14	'xformer 2
+GW	12	1	Xb	2*d	Hf	Xb	3*d	Hf	#14	'xformer 3
+GW	13	1	Xb	3*d	Hf	Xb	4*d	Hf	#14	'xformer 4
+GW	14	1	Xb	4*d	Hf	Xb	5*d	Hf	#14	'xformer 5
+GW	15	1	Xb	5*d	Hf	Xb	6*d	Hf	#14	'xformer 6
+GW	16	1	Xb	6*d	Hf	Xb	7*d	Hf	#14	'xformer 7
+GW	20	3	Xb	3*d	Hf-2*d	Xb	5*d	Hf-2*d	#14	'xformer p
+GW	19	1	Xb	4*d	Hf+d	Xb	0	Hf	#14	'strays
+GW	18	1	Xb	7*d	Hf	Xb	4*d	Hf+d	#14	'strays
+GW	21	1	Xb	7*d	Hf	Xb	5*d	Hf-2*d	#14	'L ground side
+GW	5	50	Xb	5*d	Hf-2*d	Xb	0	0	#14	'shield to ground
+GW	25	1	0	0	1	d	0	1	#14	'Source segment
+GE	1
+LD	1	20	2	0	0	0	200e-12
+LD	1	19	1	0	0	100.e-6	2.e-12
+LD	1	21	1	0	0	Lgnd	'inductance across primary wind
+LD	1	5	Fchk	0	0	120.e-6	'feed line choke
+GN	2	0	0	0	13	0.005
+EK
+EX	0	25	2	0	1	0	0
+TL	10	1	20	2	Zb	Lb	0	0	0	0
+TL	11	1	20	2	Zb	Lb	0	0	0	0
+TL	12	1	20	2	Zb	Lb	0	0	0	0
+TL	13	1	20	2	Zb	Lb	0	0	0	0
+TL	14	1	20	2	Zb	Lb	0	0	0	0
+TL	15	1	20	2	Zb	Lb	0	0	0	0
+TL	16	1	20	2	Zb	Lb	0	0	0	0
+TL	20	2	25	1	50	20	0	0	0	0
+FR	0	0	0	0	3.62	0
+EN

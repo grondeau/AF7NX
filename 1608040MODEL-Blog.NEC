@@ -1,0 +1,33 @@
+CM 160m Inverted L
+CM Optimized for 160, 80, 40 m bands
+CE
+SY H=34.0081	'Top height meters
+SY HR = 3	'Bottom Height of Radials
+SY Ltline=54	'Length of coax from source to feed point
+SY Lradial=0.15	'Length of 160m radials was 8.5  Removed
+SY Lradial2=10.2	'Length of 160m radials was 10.2 
+SY Lcoax=11.	'Length of Coax radiator section including trap
+SY LWhorz=34.73521	'Length of horizontal wire was 35.65
+SY LWvert = H-Lcoax-HR	'Length of vertical wire
+SY Lcoil=1.47e-5	'5.6T 12" ==> 14.7 uH  17.3pF
+SY Ccoil=1.73e-11
+SY Lchoke=790.e-6	'Ferrite Choke 8T on FT240 + Big Split Core
+SY Cchoke=29.e-12   'Measured quantities
+SY Rchoke=15000
+SY SEG=74		'Segment number for air feed line coil
+SY Ygnd=25	'Coax line effective grounding
+GW	1	100	0	0	H	0	LWhorz	H	#14	'Main horz. Wire
+GW	2	100	0	0	H	0	0	H-LWvert	#14	'Wire Vert. to feed
+GW	3	75	0	0	H-LWvert	0	0	HR	3.5e-3	'coax to radials
+GW	11	50	0	0	HR	-Lradial2	0	HR	#14	'Radial
+GW	20	1	0	-10	1	0.2	-10	1	#14	'Source
+GW	15	50	0	0	HR	Ygnd	0	0	3.5e-3	'Feed Line
+GE	1
+LD	1	15	1	1	Rchoke	Lchoke	Cchoke	'Choke
+LD	1	3	SEG	0	0	Lcoil	Ccoil
+GN	2	0	0	0	13	0.005
+EK
+EX	0	20	1	0	1	0	0
+TL	20	1	3	1	75	Ltline	0	0	0	0
+FR	0	0	0	0	1.81	0
+EN

@@ -1,0 +1,40 @@
+CM 160m Inverted L
+CM Optimized for 160, 80, 40 m bands
+CM This Model includes variable air-core coil number of turns.  
+CM Changin the number of turns changes the remain length of coax so affects the overall Heigth and the length of vertical coax.
+CM The number of turns also changes the coils L and C values.  This is all controlled by the Nturns variable. 
+CM Hence version this is a useful tuning guide when changing Nturns
+CE
+SY Nturns=4.5	'Turns on 40m trap 12" coil of RG11
+SY NetTurns = Nturns - 5.6	'Turns on 40m trap 12" coil of RG11
+SY H=34.- NetTurns* 0.96	'Top height meters
+SY HR = 3	'Bottom Height of Radials
+SY Ltline=54	'Length of coax to feed point
+SY Lradial=0.15	'Length of 160m radials was 8.5  Actual 3.2 - Remove
+SY Lradial2=10.2	'Length of 160m radials was10.2 - opt 3.6
+SY Lcoax=11. - NetTurns * 0.96	'Length of Coax section including trap 11
+SY LWhorz=37.00724	'Length of horizontal wire was 35.65
+SY LWvert = H-Lcoax-HR	'Length of horizontal wire
+SY DR = 0	'Length of radial mismatch
+SY Lcoil=1.47e-5 + NetTurns * 4.4e-6	'//11.4uH 5.6T 12" ==> 14.7 uH  17.3pF
+SY Ccoil=1.73e-11 - NetTurns * 0.59e-12	'//10.0pF
+SY Lchoke=790.e-6	'Ferrite Choke 8T on FT240
+SY Cchoke=29.e-12
+SY Rchoke=15000	'resistive max at resonance
+SY SEG=74
+SY Ygnd=35	'Coax line effective grounding
+GW	1	100	0	0	H	0	LWhorz	H	#14	'Main horz. Wire
+GW	2	100	0	0	H	0	0	H-LWvert	#14	'Wire Vert. to feed
+GW	3	75	0	0	H-LWvert	0	0	HR	3.5e-3	'coax to radials
+GW	11	50	0	0	HR	-Lradial2+DR	0	HR	#14	'Radial
+GW	20	1	0	-10	1	0.2	-10	1	#14	'Source
+GW	15	50	0	0	HR	Ygnd	0	0	3.5e-3	'Feed Line
+GE	1
+LD	1	15	1	1	Rchoke	Lchoke	Cchoke	'Choke
+LD	1	3	SEG	0	0	Lcoil	Ccoil
+GN	2	0	0	0	13	0.005
+EK
+EX	0	20	1	0	1	0	0
+TL	20	1	3	1	75	Ltline	0	0	0	0
+FR	0	0	0	0	1.81	0
+EN

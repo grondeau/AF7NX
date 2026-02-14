@@ -1,0 +1,54 @@
+CM 20m Quadpod with T-lines and matching components - Gary Rondeau AF7NX
+CE
+SY freq = 14.1	'Mhz
+SY lambda = 300/freq
+SY L4 = lambda/4
+SY Nreflector=2
+SY drt = 0.3	'tower offset for reflector
+SY dr = 0.05	'small number for wiring
+SY ref=1.02	'Reflector Tuning Parameter
+SY phr=22.	'reflector top angle
+SY lref = 2.0*L4*ref	'length reflector
+SY Zref = lref*cos(phr)
+SY Rref = lref*sin(phr)
+SY HB = 1.	'Base height meters
+SY H = HB + Zref
+SY Hfeet = H/0.3048
+SY LWfeet = lref/0.3048
+SY Zline = 300
+SY Zmain = 50
+SY Tline = 43
+SY Tfeed = lambda/4
+SY nseg = 75
+SY StakeRft = H*tan(phr) /0.3048
+SY Lmatch=1.00e-6	'0.5e-6
+SY Cmatch=3.0e-11	'32.0e-12
+GW	1	101	drt	0	H	drt + Rref	0	HB	#14	'reflector
+GW	2	101	0	drt	H	0	drt + Rref	HB	#14	'reflector
+GW	3	101	-drt	0	H	-(drt + Rref)	0	HB	#14	'reflector
+GW	4	101	0	-drt	H	0	-(drt + Rref)	HB	#14	'reflector
+GW	30	1	-dr/2	0	1.	dr/2	0	1.	#14	'Source point on the antenna
+GW	31	1	-dr/2	0	.75	dr/2	0	0.75	#14	'end of tline for wire2
+GW	32	1	-dr/2	0	.5	dr/2	0	.5	#14	'end of tline for wire3
+GW	33	1	-dr/2	0	.25	dr/2	0	.25	#14	'end of tline for wire4
+GW	40	1	-dr/2	5	.2	dr/2	5	.2	#14	'radio end of main T-line
+GW	35	1	-dr/2	0	1	0	dr/2	1	#14	'end of tline for wire1
+GW	36	1	0	dr/2	1	dr/2	0	1	#14	'mathcing inductor series connection
+GW	37	1	0	dr/2	1	-dr/2	0	1+dr/2	#14	'necessary spur
+GW	38	1	-dr/2	0	1+dr/2	-dr/2	0	1	#14	'matching capacitor  segment
+GW	39	1	-dr/2	0	.1	dr/2	0	.1	#14	'antenna end of main T-line
+GE	1
+LD	5	0	0	0	58000000
+LD	7	0	0	0	3.5	1.5e-3
+LD	1	36	1	0	1.e6	Lmatch
+LD	1	38	1	0	1.e6	0	Cmatch
+GN	2	0	0	0	13	0.005
+EK
+EX	0	30	1	0	1	0	0	'Place source on Tag 40 if using main T-line
+TL	2	nseg	31	1	Zline	Tfeed	0	0	0	0	'Change Tag2 from 31 to 35 to make this wire active also
+TL	3	nseg	32	1	Zline	Tfeed	0	0	0	0	'Change Tag2 from 32 to 35 to make this wire active also
+TL	4	nseg	33	1	Zline	Tfeed	0	0	0	0	'Change Tag2 from 33 to 35 to make this wire active also
+TL	1	nseg	35	1	Zline	Tfeed	0	0	0	0	'Active wire
+TL	39	1	40	1	Zmain	Tline	0	0	0	0	'To add in the main tline - change Tag1 to 30 and place source on 40
+FR	0	0	0	0	freq	0
+EN
